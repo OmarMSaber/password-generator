@@ -118,3 +118,38 @@ To uninstall the application and delete all associated resources, run:
     ```bash
     helm uninstall password-generator
     ```
+
+# Application Architecture
+
+![Architecture Diagram](architecture-diagram.jpg)
+
+## Overview of Application Architecture
+
+Our application follows a robust three-tier architecture designed to ensure scalability, reliability, and security. Below are the key components and features of our architecture:
+
+- **Application**: Hosted on Amazon EKS with CDN integration for caching to improve performance and scalability.
+
+- **Backend&DB**: Deployed on Amazon EKS for container orchestration, allowing for scalability and flexibility. It interacts with a relational database managed by Amazon RDS for data persistence. The database is replicated across multiple availability zones for high availability and fault tolerance.
+
+- **Database Replication**: Amazon RDS provides built-in replication features such as Multi-AZ deployments and Read Replicas. Multi-AZ deployments automatically replicate data synchronously across multiple Availability Zones to ensure high availability and durability. Read Replicas can be used to offload read traffic from the primary database instance, improving scalability and performance.
+
+- **Authentication**: Handled by AWS Cognito, providing secure user authentication and authorization.
+
+- **Security**: Utilizes various AWS security services including AWS Shield, AWS GuardDuty, and AWS WAF to protect against DDoS attacks, threats, and web application firewall.
+
+- **Network Infrastructure**: Configured with security groups, NACLs, and route tables to control traffic flow and ensure secure communication within the network. NAT Gateways are employed to provide internet access for private subnets.
+
+- **Logging and Monitoring**: Leveraging AWS CloudWatch for logging and monitoring to gain insights into application performance and troubleshoot issues proactively.
+
+- **IAM (Identity and Access Management)**: IAM roles and policies are used to manage access to AWS resources securely. Best practices include:
+
+  - Principle of Least Privilege: Assign only the permissions necessary for each IAM entity (user, role, group) to perform its intended tasks.
+  - Use IAM Roles for Applications: Assign IAM roles to  EKS pods to grant access to AWS resources without hardcoding credentials.
+  - Regularly Review and Rotate Credentials: Rotate IAM access keys and credentials periodically to reduce the risk of unauthorized access.
+  - Enable MFA (Multi-Factor Authentication): Require users to authenticate using multiple factors (e.g., password and mobile device) to access AWS resources, enhancing security.
+  
+- **High Availability**: The application is deployed across multiple availability zones within each region for fault tolerance and high availability. Additionally, a Disaster Recovery (DR) application is set up to provide failover capabilities, connected to Route 53 for traffic routing.
+
+This architecture is designed to meet the demands of modern applications, providing scalability, security, and resilience to handle varying workloads and maintain high performance.
+
+For more details on the architecture components, refer to the diagram above.
