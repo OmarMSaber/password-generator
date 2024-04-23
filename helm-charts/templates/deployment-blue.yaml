@@ -1,0 +1,54 @@
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: password-generator-deployment
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: password-generator
+#   template:
+#     metadata:
+#       labels:
+#         app: password-generator
+#     spec:
+#       containers:
+#       - name: password-generator
+#         image: omarmsaber/password-generator:3.0
+#         ports:
+#         - containerPort: 8000
+# deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blue-deployment
+  labels: 
+    app: {{ .Values.appLabelblue  }}
+spec:
+  replicas: {{ .Values.appblue.replicas.count }}
+  selector:
+    matchLabels:
+      app: {{ .Values.appLabelblue}}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appLabelblue }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.appblue.image.repository }}:{{ .Values.appblue.image.tag }}"
+          ports:
+            - name: http
+              containerPort: 8000
+          # readinessProbe:
+          #   httpGet:
+          #     path: /health
+          #     port: {{ .Values.app.service.port }}
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 5
+          # livenessProbe:
+          #   httpGet:
+          #     path: /health
+          #     port: {{ .Values.app.service.port }}
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 10

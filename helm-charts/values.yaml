@@ -1,0 +1,35 @@
+# values.yaml
+fullnameOverride: ""
+
+appLabel: "password-generator"
+appLabelblue: "password-generator-blue"
+
+app:
+  image:
+    repository: omarmsaber/password-generator
+    tag: "3.0"
+  service:
+    type: ClusterIP
+    port: 8000
+  replicas:
+    count: 3 
+
+appblue:
+  image:
+    repository: omarmsaber/password-generator
+    tag: "5.0"
+  service:
+    type: ClusterIP
+    port: 8000
+  replicas:
+    count: 5
+
+# app-green:
+#   image:
+#     repository: omarmsaber/password-generator
+#     tag: "3.0"
+#   service:
+#     type: ClusterIP
+#     port: 8000
+#   replicas:
+#     count: 3 
